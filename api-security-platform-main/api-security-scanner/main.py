@@ -280,7 +280,14 @@ def run_pipeline(target_url: str, sarif_output: str = None, return_session_id: b
             json_payload={"username": attacker_creds["username"], "password": attacker_creds["password"]},
             custom_headers={"Content-Type": "application/json"}
         )
-        attacker_token = json.loads(attacker_login.get("response_body", "{}")).get("auth_token", "")
+        try:
+            _body = attacker_login.get("response_body") or "{}"
+            _data = json.loads(_body)
+            attacker_token = _data.get("auth_token", "") if isinstance(_data, dict) else ""
+            if not isinstance(attacker_token, str):
+                attacker_token = ""
+        except (ValueError, TypeError, AttributeError):
+            attacker_token = ""
         run_direct_probe(
             "BOLA_IDOR",
             "PUT",
@@ -296,7 +303,14 @@ def run_pipeline(target_url: str, sarif_output: str = None, return_session_id: b
             json_payload={"username": mass_assign_creds["username"], "password": mass_assign_creds["password"]},
             custom_headers={"Content-Type": "application/json"}
         )
-        mass_assign_token = json.loads(mass_login.get("response_body", "{}")).get("auth_token", "")
+        try:
+            _body = mass_login.get("response_body") or "{}"
+            _data = json.loads(_body)
+            mass_assign_token = _data.get("auth_token", "") if isinstance(_data, dict) else ""
+            if not isinstance(mass_assign_token, str):
+                mass_assign_token = ""
+        except (ValueError, TypeError, AttributeError):
+            mass_assign_token = ""
         run_direct_probe(
             "Mass_Assignment",
             "DELETE",
