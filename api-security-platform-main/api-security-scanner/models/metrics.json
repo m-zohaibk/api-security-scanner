@@ -1,0 +1,30 @@
+{
+  "tabular_ranker": {
+    "accuracy": 0.5795,
+    "precision": 0.3909,
+    "recall": 0.6475,
+    "f1": 0.4875,
+    "pr_auc": 0.5507
+  },
+  "isolation_forest": {
+    "accuracy": 0.6598,
+    "precision": 0.4656,
+    "recall": 0.6874,
+    "f1": 0.5552,
+    "pr_auc": 0.5595
+  },
+  "autoencoder": {
+    "accuracy": 0.7417,
+    "precision": 0.6079,
+    "recall": 0.4611,
+    "f1": 0.5244,
+    "pr_auc": 0.6303
+  },
+  "character_lstm": {
+    "accuracy": 0.5314,
+    "precision": 0.3596,
+    "recall": 0.6622,
+    "f1": 0.4661,
+    "pr_auc": 0.3293
+  }
+}

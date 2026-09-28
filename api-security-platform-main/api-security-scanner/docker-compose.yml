@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  api-scanner:
+    build: .
+    container_name: api-security-platform
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./datasets:/app/datasets
+      - ./reports:/app/reports
+      - ./database:/app/database
+      - ./models:/app/models
+    env_file:
+      - .env
+    environment:
+      - FLASK_PORT=5000
+      - FLASK_DEBUG=False
+      - DATABASE_URL=sqlite:///database/scanner.db
+
+  vampi:
+    image: erev0s/vampi
+    container_name: vampi-vulnerable-api
+    ports:
+      - "5001:5000"

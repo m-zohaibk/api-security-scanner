@@ -1,0 +1,68 @@
+# Environment Variables & Secrets
+.env
+
+# Application Logs
+scanner.log
+*.log
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+
+# Database Files
+database/scanner.db
+database/*.db
+*.sqlite
+*.sqlite3
+*.db
+
+# Machine Learning & Deep Learning Model Weights
+models/*.pkl
+models/*.pt
+models/*.pth
+ml_artifacts/
+*.pkl
+*.pt
+
+# Raw and Processed Datasets
+datasets/raw/
+datasets/processed/
+datasets/self_generated/
+datasets/evaluation_results.json
+
+# Generated Export Reports
+reports/*.pdf
+reports/*.json
+reports/*.html
+reports/*.sarif
+
+# IDE / Editor Files
+.vscode/
+.idea/
+.DS_Store
+
+# Local security-test session artifacts
+tests/*_manual_*.json
+tests/*_manual_*.py
+tests/*_results.json
+tests/*_inventory.json
+tests/*_inventory.py
+tests/*_comparison.json
+tests/*_compare.py
+tests/target_selection_*.md
+tests/real_target_validation.md
+tests/manual_dvwa_xss_*
+tests/*_landing.html
+ml_artifacts/*_backup*/
+*.db
+*.sqlite3
+.pytest_cache/
+__pycache__/

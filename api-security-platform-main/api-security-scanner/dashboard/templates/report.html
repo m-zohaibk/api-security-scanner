@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Finding #{{ finding.id if finding else 'N/A' }} - API Security Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Finding Detail #{{ finding.id if finding else 'N/A' }}</h1>
+    <p>Target Endpoint: <code>{{ finding.endpoint.url if finding and finding.endpoint else 'N/A' }}</code></p>
+</div>
+
+{% if finding %}
+<div class="card detail-card">
+    <h2>Vulnerability Summary</h2>
+    <div class="detail-grid">
+        <div><strong>Attack Category:</strong> {{ finding.attack_type }}</div>
+        <div><strong>Severity:</strong> <span class="badge {{ finding.severity|lower }}">{{ finding.severity }}</span></div>
+        <div><strong>Risk Score:</strong> {{ finding.risk_score }} / 100</div>
+        <div><strong>Triggered Rule/Pattern:</strong> <code>{{ finding.signature_triggered or 'N/A' }}</code></div>
+    </div>
+
+    <!-- Detection Layer Point Contributions -->
+    <li><strong>Layer 1 (Signature Rules):</strong> {{ [(((finding.risk_score or 0.0) - (finding.ml_score or 0.0) - ((finding.lstm_score or 0.0) + (finding.autoencoder_score or 0.0))) | round(2)), 0.0] | max }} pts</li>
+    <li><strong>Layer 2 (ML Isolation Forest):</strong> {{ (finding.ml_score or 0.0) | round(2) }} pts</li>
+    <li><strong>Layer 3 (LSTM Sequence + Autoencoder):</strong> {{ ((finding.lstm_score or 0.0) + (finding.autoencoder_score or 0.0)) | round(2) }} pts</li>
+    
+    <h3>Remediation Recommendation</h3>
+    <p class="recommendation-box">{{ finding.recommendation }}</p>
+
+    <h3>Request & Response Telemetry</h3>
+    <div class="code-block">
+        <p><strong>Response Status:</strong> {{ finding.response_status }}</p>
+        <p><strong>Response Size:</strong> {{ finding.response_size }} bytes</p>
+        <p><strong>Response Time:</strong> {{ finding.response_time }}s</p>
+    </div>
+</div>
+{% else %}
+<p>Finding detail record not found.</p>
+{% endif %}
+{% endblock %}

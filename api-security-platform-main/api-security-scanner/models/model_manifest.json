@@ -1,0 +1,14 @@
+{
+  "artifacts": {
+    "tabular_ranker": "tabular_ranker.pkl",
+    "isolation_forest": "isolation_forest.pkl",
+    "feature_scaler": "feature_scaler.pkl",
+    "autoencoder": "autoencoder.pt",
+    "autoencoder_scaler": "autoencoder_scaler.pkl",
+    "autoencoder_threshold": "autoencoder_threshold.txt",
+    "lstm": "lstm_model.pt",
+    "char_vocab": "char_vocab.json"
+  },
+  "feature_schema": "runtime-http-17-v1",
+  "output_confirmation_policy": "not_confirmed_model_signal_only"
+}

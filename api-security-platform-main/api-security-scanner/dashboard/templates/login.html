@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Login - API Security Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Dashboard Authentication</h1>
+    <p>Please enter your credentials to access the API Security Platform.</p>
+</div>
+
+<div class="card form-container" style="max-width: 480px; margin: 2rem auto;">
+    {% if error %}
+    <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem;">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <form action="{{ url_for('dashboard.login') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="next" value="{{ next_url or '' }}">
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="admin" required autofocus>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign In</button>
+    </form>
+</div>
+{% endblock %}

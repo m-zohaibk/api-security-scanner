@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Scan - API Security Platform{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>New Telemetry Inspection</h1>
+    <p>Analyze API endpoint target structures and incoming HTTP request patterns.</p>
+</div>
+
+<div class="card form-card">
+    <form action="{{ url_for('dashboard.scan') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="form-group">
+            <label for="target_url">Target API Endpoint URL</label>
+            <input type="url" id="target_url" name="target_url" placeholder="http://127.0.0.1:5000/api/v1/resource" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Run Telemetry Analysis</button>
+    </form>
+</div>
+{% endblock %}

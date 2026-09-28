@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Scan Results #{{ session_data.id }} - API Security Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Inspection Results — Session #{{ session_data.id }}</h1>
+    <p>Target: <strong>{{ session_data.target_url }}</strong></p>
+    <p><span class="badge badge-lg low">Complete proof-gated pipeline</span> Confirmed findings are counted separately from suspected and informational signals.</p>
+</div>
+
+<div class="summary-cards-grid">
+    <div class="card summary-card">
+        <h3>Overall Risk Score</h3>
+        <p class="score-display">{{ session_data.overall_risk_score }} <span class="max-score">/ 100</span></p>
+    </div>
+    <div class="card summary-card">
+        <h3>Severity Status</h3>
+        <span class="badge badge-lg {{ session_data.overall_severity|lower }}">{{ session_data.overall_severity }}</span>
+    </div>
+    <div class="card summary-card">
+        <h3>Endpoints Found</h3>
+        <p class="metric-number">{{ session_data.total_endpoints_found }}</p>
+    </div>
+    <div class="card summary-card">
+        <h3>Vulnerabilities Detected</h3>
+        <p class="metric-number">{{ session_data.total_vulnerabilities_found }}</p>
+    </div>
+</div>
+
+<div class="charts-row">
+    <div class="card chart-card">
+        <h3>Findings by Severity</h3>
+        <canvas id="severityChart"></canvas>
+    </div>
+    <div class="card chart-card">
+        <h3>Attack Type Breakdown</h3>
+        <canvas id="attackTypeChart"></canvas>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header-actions">
+        <h2>Inspection Findings Detail</h2>
+        <div class="export-buttons">
+            <a href="{{ url_for('dashboard.export_report', session_id=session_data.id, format='pdf') }}" class="btn btn-secondary">Export PDF</a>
+            <a href="{{ url_for('dashboard.export_report', session_id=session_data.id, format='json') }}" class="btn btn-secondary">Export JSON</a>
+            <a href="{{ url_for('dashboard.export_report', session_id=session_data.id, format='html') }}" class="btn btn-secondary">Export HTML</a>
+            <a href="{{ url_for('dashboard.export_report', session_id=session_data.id, format='sarif') }}" class="btn btn-secondary">Export SARIF</a>
+        </div>
+    </div>
+
+    <div class="table-card card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Attack Type</th>
+                    <th>Severity</th>
+                    <th>Risk Score</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for finding in findings %}
+                <tr>
+                    <td><code>{{ finding.endpoint.url if finding.endpoint else 'Base URL' }}</code></td>
+                    <td>{{ finding.attack_type }}</td>
+                    <td><span class="badge {{ finding.severity|lower }}">{{ finding.severity }}</span></td>
+                    <td><strong>{{ finding.risk_score }}</strong></td>
+                    <td><a href="{{ url_for('dashboard.finding_detail', finding_id=finding.id) }}" class="btn-sm">View Detail</a></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">No vulnerabilities or anomalies flagged for this session.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    window.severityData = {{ severity_counts | tojson }};
+    window.attackData = {{ attack_counts | tojson }};
+</script>
+{% endblock %}

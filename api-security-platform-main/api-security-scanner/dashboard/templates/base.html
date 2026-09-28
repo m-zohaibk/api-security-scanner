@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}API Security & Anomaly Platform{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-layout">
+        <header class="navbar">
+            <div class="logo">
+                <a href="{{ url_for('dashboard.index') }}"><span>API</span> SECURITY PLATFORM</a>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('dashboard.index') }}">Home</a>
+                <a href="{{ url_for('dashboard.history') }}">History</a>
+                {% if auth_enabled %}
+                    {% if is_authenticated %}
+                        <a href="{{ url_for('dashboard.logout') }}">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('dashboard.login') }}">Login</a>
+                    {% endif %}
+                {% endif %}
+            </nav>
+        </header>
+
+        <div class="body-container">
+            <aside class="sidebar">
+                <h3>Recent Telemetry Scans</h3>
+                <ul class="recent-scans-list">
+                    {% for sess in recent_sessions %}
+                    <li>
+                        <a href="{{ url_for('dashboard.results', session_id=sess.id) }}">
+                            <span class="scan-url">{{ sess.target_url }}</span>
+                            <span class="badge {{ sess.overall_severity|lower }}">{{ sess.overall_severity }}</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="empty-list">No recent scan sessions.</li>
+                    {% endfor %}
+                </ul>
+            </aside>
+
+            <main class="main-viewport">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 API Security Platform | Multi-Layer Telemetry & Anomaly Analysis</p>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

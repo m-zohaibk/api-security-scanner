@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Scan History - API Security Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Inspection Scan History</h1>
+    <p>Historical telemetry logs and target evaluation records.</p>
+</div>
+
+<div class="card table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>Session ID</th>
+                <th>Target URL</th>
+                <th>Date</th>
+                <th>Risk Score</th>
+                <th>Severity</th>
+                <th>Vulnerabilities</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sess in sessions %}
+            <tr>
+                <td>#{{ sess.id }}</td>
+                <td><code>{{ sess.target_url }}</code></td>
+                <td>{{ sess.scan_start_time.strftime('%Y-%m-%d %H:%M') if sess.scan_start_time else 'N/A' }}</td>
+                <td><strong>{{ sess.overall_risk_score }}</strong></td>
+                <td><span class="badge {{ sess.overall_severity|lower }}">{{ sess.overall_severity }}</span></td>
+                <td>{{ sess.total_vulnerabilities_found }}</td>
+                <td class="actions-cell">
+                    <a href="{{ url_for('dashboard.results', session_id=sess.id) }}" class="btn-sm">View</a>
+                    <form action="{{ url_for('dashboard.delete_scan', session_id=sess.id) }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Delete this scan session record?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" class="text-center">No past inspection scan sessions recorded.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

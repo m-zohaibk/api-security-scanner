@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Start Complete Security Scan - API Security Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Complete API Security Scan</h1>
+    <p>Run the same proof-gated, endpoint-aware pipeline used by the command-line scanner directly from the dashboard.</p>
+</div>
+
+<div class="card form-container">
+    <form action="{{ url_for('dashboard.start_scan') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="form-group">
+            <label for="target_url">Target API Base URL</label>
+            <input type="url" id="target_url" name="target_url" placeholder="http://localhost:5001" required>
+            <small>The target must be an authorized application or training environment.</small>
+        </div>
+
+        <div class="options-header">
+            <h3>Complete Pipeline Enabled</h3>
+            <p>The dashboard now runs all supported modules automatically. Individual legacy module switches have been removed so the browser and command-line scans cannot silently produce different coverage.</p>
+        </div>
+
+        <div class="card">
+            <h4>Active vulnerability probes</h4>
+            <p>GraphQL introspection, XXE, credential and generic SQL injection, GET and time-based SQL injection, reflected XSS, command injection, local file inclusion, open redirect, broken authentication, and BOLA/IDOR.</p>
+        </div>
+
+        <div class="card">
+            <h4>Passive and metadata checks</h4>
+            <p>CSRF form-token observations, CORS policy signals, rate-limit headers, security headers, sensitive-data and verbose-error leakage, OpenAPI fields and security requirements, SPA-shell suppression, differential response analysis, and baseline inspection.</p>
+        </div>
+
+        <div class="card">
+            <h4>Safety and reporting</h4>
+            <p>Requests use the configured endpoint budget and bounded concurrency. Findings are separated into confirmed, suspected, and informational states. Results can be exported as PDF, JSON, HTML, or SARIF 2.1.0.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Start Complete Security Scan</button>
+    </form>
+</div>
+{% endblock %}
